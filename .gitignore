@@ -1,0 +1,18 @@
+# ignore moc generated files
+moc_*.cxx
+qrc_application.cxx
+*/__/
+*.moc
+
+# ignore cmake generated files
+*.cmake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+
+# ignore emacs generated files
+\#*\#
+*~
+
+# ignore generated executables
+blockBuilder
