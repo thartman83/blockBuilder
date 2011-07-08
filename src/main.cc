@@ -13,14 +13,14 @@
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
 /*****************************************************************************/
-#include "blockBuilder.hh"
+#include "blockBuilderWin.hh"
 #include <QApplication>
 
 int main(int argc, char ** argv)
 {
 	 QApplication * app = new QApplication(argc,argv);
 	 app->setApplicationName("Block Builder");
-	 BlockBuilder * win = new BlockBuilder();
+	 BlockBuilderWin * win = new BlockBuilderWin();
 
 	 win->show();
 	 

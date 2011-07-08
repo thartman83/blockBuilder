@@ -15,16 +15,30 @@
 /*****************************************************************************/
 #ifndef BLOCKBUILDER_HH_
 #define BLOCKBUILDER_HH_
-#include <QMainWindow>
+#include <QColor>
+#include <QVector>
 
-class BlockBuilder : public QMainWindow
+class BlockBuilder : public QObject
 {
 	 Q_OBJECT
 	 public:
 	 BlockBuilder();
 	 ~BlockBuilder();
-	 
-	 private:
+
+	 QColor getStartingColor();
+	 QColor getEndingColor();
+	 int getVariance();
+
+public slots:
+	 void setStartingColor(const QColor & color);
+	 void setEndingColor(const QColor & color);
+	 void setVariance(int variance);
+
+private:
+	 QVector<QColor> _blocks;
+	 QColor _starting;
+	 QColor _ending;
+	 int variance;
 };
 
 #endif//BLOCKBUILDER_HH_
