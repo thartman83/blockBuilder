@@ -37,6 +37,8 @@ private:
 	 QLineEdit * _hVariance;
 	 QLineEdit * _vVariance;
 	 QPushButton * _buildBtn;
+	 QLineEdit * _heightEdit;
+	 QLineEdit * _widthEdit;
 };
 
 #endif//BLOCKBUILDERWIN_HH_

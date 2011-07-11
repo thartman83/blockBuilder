@@ -24,11 +24,30 @@
 #include <QRegExpValidator>
 #include <QRegExp>
 #include <QPushButton>
+#include <QImage>
 
 BlockBuilderWin::BlockBuilderWin()
 {	 	 
 	 QFrame * frm = new QFrame(this);
 	 QVBoxLayout * vlayout = new QVBoxLayout(frm);
+	 
+	 /* Width */
+	 _widthEdit = new QLineEdit();
+	 _widthEdit->setText("1024");
+	 _widthEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _widthEdit));
+
+	 QHBoxLayout * widthHLayout = new QHBoxLayout();
+	 widthHLayout->addWidget(new QLabel("Width"));
+	 widthHLayout->addWidget(_widthEdit);
+
+	 /* Height */
+	 _heightEdit = new QLineEdit();
+	 _heightEdit->setText("768");
+	 _heightEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _heightEdit));
+	 
+	 QHBoxLayout * heightHLayout = new QHBoxLayout();
+	 heightHLayout->addWidget(new QLabel("Height"));
+	 heightHLayout->addWidget(_heightEdit);
 
 	 /* Starting Color */
 	 _startColor = new ColorSelector(NULL, QColor("#ffffff"));
@@ -58,7 +77,7 @@ BlockBuilderWin::BlockBuilderWin()
 	 /* Vertical Variance */
 	 _vVariance = new QLineEdit();
 	 _vVariance->setText("5");
-	 _vVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+)"), _hVariance));
+	 _vVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _vVariance));
 
 	 QHBoxLayout * vVarLayout = new QHBoxLayout();
 	 vVarLayout->addWidget(new QLabel("Vertical Variance"));
@@ -70,6 +89,9 @@ BlockBuilderWin::BlockBuilderWin()
 	 connect(_buildBtn, SIGNAL(clicked()), this, SLOT(buildImage()));
 
    /* Add all of the hlayouts to the vlayout */
+
+	 vlayout->addLayout(widthHLayout);
+	 vlayout->addLayout(heightHLayout);
 	 vlayout->addLayout(startHLayout);
 	 vlayout->addLayout(endHLayout);
 	 vlayout->addLayout(hVarLayout);
@@ -86,10 +108,14 @@ BlockBuilderWin::~BlockBuilderWin()
 
 void BlockBuilderWin::buildImage()
 {
-	 BlockBuilder blockBuilder(_startColor->color(), _endColor->color(),
+	 BlockBuilder blockBuilder(_widthEdit->text().toInt(), 
+														 _heightEdit->text().toInt(),
+														 _startColor->color(), _endColor->color(),
 														 _hVariance->text().toInt(), 
 														 _vVariance->text().toInt());
 
-	 blockBuilder.buildImage();
+	 QImage img = blockBuilder.buildImage();
+
+	 img.save("tmp.bmp");
 }
 

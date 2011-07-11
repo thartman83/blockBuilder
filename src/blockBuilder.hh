@@ -17,21 +17,28 @@
 #define BLOCKBUILDER_HH_
 #include <QColor>
 #include <QVector>
+#include <QImage>
 
 class BlockBuilder
 {
 	 public:
-	 BlockBuilder(const QColor & startColor, const QColor & endColor,
-								int hVariance, int vVariance);
+	 BlockBuilder(int width, int height, const QColor & startColor, 
+								const QColor & endColor, int hVariance, int vVariance);
 	 ~BlockBuilder();
 
-	 void buildImage();
+	 QImage buildImage();
 
 private:
+	 QColor updateBaseColor(const QColor & baseColor, float rStep, float gStep, 
+													float bStep, int variance);
+
+	 int _width;
+	 int _height;
 	 QColor _startColor;
 	 QColor _endColor;
 	 int _hVariance;
 	 int _vVariance;
+	 QVector<QColor> blocks;
 };
 
 #endif//BLOCKBUILDER_HH_
