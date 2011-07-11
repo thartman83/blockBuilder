@@ -19,6 +19,7 @@
 
 class ColorSelector;
 class QLineEdit;
+class QPushButton;
 
 class BlockBuilderWin : public QMainWindow
 {
@@ -26,12 +27,16 @@ class BlockBuilderWin : public QMainWindow
 	 public:
 	 BlockBuilderWin();
 	 ~BlockBuilderWin();
+
+public slots:
+	 void buildImage();
 	 
 private:
 	 ColorSelector * _startColor;
 	 ColorSelector * _endColor;
 	 QLineEdit * _hVariance;
 	 QLineEdit * _vVariance;
+	 QPushButton * _buildBtn;
 };
 
 #endif//BLOCKBUILDERWIN_HH_

@@ -55,6 +55,11 @@ ColorSelector::~ColorSelector()
 {
 }
 
+QColor ColorSelector::color()
+{
+	 return QColor(_lineEdit->text());
+}
+
 void ColorSelector::getColorByDialog()
 {
 	 QColor col = QColorDialog::getColor(QColor(_lineEdit->text()));

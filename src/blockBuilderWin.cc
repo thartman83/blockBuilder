@@ -15,6 +15,7 @@
 /*****************************************************************************/
 #include "blockBuilderWin.hh"
 #include "colorSelector.hh"
+#include "blockBuilder.hh"
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -22,6 +23,7 @@
 #include <QLabel>
 #include <QRegExpValidator>
 #include <QRegExp>
+#include <QPushButton>
 
 BlockBuilderWin::BlockBuilderWin()
 {	 	 
@@ -32,7 +34,7 @@ BlockBuilderWin::BlockBuilderWin()
 	 _startColor = new ColorSelector(NULL, QColor("#ffffff"));
 	 QLabel * startLbl = new QLabel("Start Color");
 
-	 QHBoxLayout * startHLayout = new QHBoxLayout(frm);
+	 QHBoxLayout * startHLayout = new QHBoxLayout();
 	 startHLayout->addWidget(startLbl);
 	 startHLayout->addWidget(_startColor);
 
@@ -40,7 +42,7 @@ BlockBuilderWin::BlockBuilderWin()
 	 _endColor = new ColorSelector(NULL, QColor("#ffffff"));
 	 QLabel * endLbl = new QLabel("End Color");
 	 
-	 QHBoxLayout * endHLayout = new QHBoxLayout(frm);
+	 QHBoxLayout * endHLayout = new QHBoxLayout();
 	 endHLayout->addWidget(endLbl);
 	 endHLayout->addWidget(_endColor);
 
@@ -49,7 +51,7 @@ BlockBuilderWin::BlockBuilderWin()
 	 _hVariance->setText("5");
 	 _hVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _hVariance));
 
-	 QHBoxLayout * hVarLayout = new QHBoxLayout(frm);
+	 QHBoxLayout * hVarLayout = new QHBoxLayout();
 	 hVarLayout->addWidget(new QLabel("Horizontal Variance"));
 	 hVarLayout->addWidget(_hVariance);
 
@@ -58,15 +60,21 @@ BlockBuilderWin::BlockBuilderWin()
 	 _vVariance->setText("5");
 	 _vVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+)"), _hVariance));
 
-	 QHBoxLayout * vVarLayout = new QHBoxLayout(frm);
+	 QHBoxLayout * vVarLayout = new QHBoxLayout();
 	 vVarLayout->addWidget(new QLabel("Vertical Variance"));
 	 vVarLayout->addWidget(_vVariance);
+
+	 /* setup the build button */
+	 _buildBtn = new QPushButton();
+	 _buildBtn->setText("Build Image");
+	 connect(_buildBtn, SIGNAL(clicked()), this, SLOT(buildImage()));
 
    /* Add all of the hlayouts to the vlayout */
 	 vlayout->addLayout(startHLayout);
 	 vlayout->addLayout(endHLayout);
 	 vlayout->addLayout(hVarLayout);
 	 vlayout->addLayout(vVarLayout);
+	 vlayout->addWidget(_buildBtn);
 	 
 	 frm->setLayout(vlayout);
 	 setCentralWidget(frm);
@@ -74,5 +82,14 @@ BlockBuilderWin::BlockBuilderWin()
 
 BlockBuilderWin::~BlockBuilderWin()
 {	 
+}
+
+void BlockBuilderWin::buildImage()
+{
+	 BlockBuilder blockBuilder(_startColor->color(), _endColor->color(),
+														 _hVariance->text().toInt(), 
+														 _vVariance->text().toInt());
+
+	 blockBuilder.buildImage();
 }
 

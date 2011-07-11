@@ -18,27 +18,20 @@
 #include <QColor>
 #include <QVector>
 
-class BlockBuilder : public QObject
+class BlockBuilder
 {
-	 Q_OBJECT
 	 public:
-	 BlockBuilder();
+	 BlockBuilder(const QColor & startColor, const QColor & endColor,
+								int hVariance, int vVariance);
 	 ~BlockBuilder();
 
-	 QColor getStartingColor();
-	 QColor getEndingColor();
-	 int getVariance();
-
-public slots:
-	 void setStartingColor(const QColor & color);
-	 void setEndingColor(const QColor & color);
-	 void setVariance(int variance);
+	 void buildImage();
 
 private:
-	 QVector<QColor> _blocks;
-	 QColor _starting;
-	 QColor _ending;
-	 int variance;
+	 QColor _startColor;
+	 QColor _endColor;
+	 int _hVariance;
+	 int _vVariance;
 };
 
 #endif//BLOCKBUILDER_HH_

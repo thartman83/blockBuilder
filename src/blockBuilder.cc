@@ -15,8 +15,16 @@
 /*****************************************************************************/
 #include "blockBuilder.hh"
 
-BlockBuilder::BlockBuilder()
-{}
+BlockBuilder::BlockBuilder(const QColor & startColor, const QColor & endColor,
+													 int hVariance, int vVariance) :
+	 _startColor(startColor), _endColor(endColor), _hVariance(hVariance),
+	 _vVariance(vVariance)
+{
+}
 
 BlockBuilder::~BlockBuilder()
 {}
+
+void BlockBuilder::buildImage()
+{
+}

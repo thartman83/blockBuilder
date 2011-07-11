@@ -27,6 +27,8 @@ class ColorSelector : public QFrame
 	 ColorSelector(QWidget * parent = NULL, const QColor & col=QColor("#ffffff"));
 	 ~ColorSelector();
 
+	 QColor color();
+
 public slots:
 	 void getColorByDialog();
 

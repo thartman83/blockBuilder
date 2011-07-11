@@ -1,7 +1,8 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 include(${QT_USE_FILE})
 
-SET(blockBuilder_SRCS main.cc blockBuilderWin.cc colorSelector.cc)
+SET(blockBuilder_SRCS main.cc blockBuilderWin.cc colorSelector.cc 
+	  blockBuilder.cc)
 
 SET(blockBuilder_HDRS blockBuilderWin.hh colorSelector.hh)
 
