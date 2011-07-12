@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* blockBuilderWin.hh for blockBuilder                                       */
+/* colorSelector.hh for blockBuilder                                         */
 /* Copyright (c) 2011 Thomas Hartman (rokstar83@gmail.com)                   */
 /*                                                                           */
 /* This program is free software; you can redistribute it and/or             */
@@ -13,25 +13,29 @@
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
 /*****************************************************************************/
-#ifndef BLOCKBUILDERWIN_HH_
-#define BLOCKBUILDERWIN_HH_
-#include <QMainWindow>
+#ifndef _COLORSELECTOR_HH_
+#define _COLORSELECTOR_HH_
+#include <QFrame>
 
-class ColorSelector;
 class QLineEdit;
+class QPushButton;
 
-class BlockBuilderWin : public QMainWindow
+class ColorSelector : public QFrame
 {
 	 Q_OBJECT
 	 public:
-	 BlockBuilderWin();
-	 ~BlockBuilderWin();
-	 
+	 ColorSelector(QWidget * parent = NULL, const QColor & col=QColor("#ffffff"));
+	 ~ColorSelector();
+
+public slots:
+	 void getColorByDialog();
+
+signals:
+	 void colorChanged(const QColor & color);
+
 private:
-	 ColorSelector * _startColor;
-	 ColorSelector * _endColor;
-	 QLineEdit * _hVariance;
-	 QLineEdit * _vVariance;
+	 QLineEdit * _lineEdit;
+	 QPushButton * _selector;
 };
 
-#endif//BLOCKBUILDERWIN_HH_
+#endif//_COLORSELECTOR_HH_

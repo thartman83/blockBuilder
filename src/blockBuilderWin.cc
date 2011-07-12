@@ -14,24 +14,65 @@
 /* GNU General Public License for more details.                              */
 /*****************************************************************************/
 #include "blockBuilderWin.hh"
-#include <QColorDialog>
-#include <QVBoxLayout>
+#include "colorSelector.hh"
 #include <QFrame>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLineEdit>
+#include <QLabel>
+#include <QRegExpValidator>
+#include <QRegExp>
 
 BlockBuilderWin::BlockBuilderWin()
 {	 	 
-	 _startingPicker = new QColorDialog(this);
-	 _endingPicker = new QColorDialog(this);
-
-	 QVBoxLayout * layout = new QVBoxLayout(this);
-	 layout->addWidget(_startingPicker);
-	 layout->addWidget(_endingPicker);
 	 QFrame * frm = new QFrame(this);
+	 QVBoxLayout * vlayout = new QVBoxLayout(frm);
 
+	 /* Starting Color */
+	 _startColor = new ColorSelector(NULL, QColor("#ffffff"));
+	 QLabel * startLbl = new QLabel("Start Color");
+
+	 QHBoxLayout * startHLayout = new QHBoxLayout(frm);
+	 startHLayout->addWidget(startLbl);
+	 startHLayout->addWidget(_startColor);
+
+	 /* Ending Color */
+	 _endColor = new ColorSelector(NULL, QColor("#ffffff"));
+	 QLabel * endLbl = new QLabel("End Color");
+	 
+	 QHBoxLayout * endHLayout = new QHBoxLayout(frm);
+	 endHLayout->addWidget(endLbl);
+	 endHLayout->addWidget(_endColor);
+
+	 /* Horizontal Variance */
+	 _hVariance = new QLineEdit();
+	 _hVariance->setText("5");
+	 _hVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _hVariance));
+
+	 QHBoxLayout * hVarLayout = new QHBoxLayout(frm);
+	 hVarLayout->addWidget(new QLabel("Horizontal Variance"));
+	 hVarLayout->addWidget(_hVariance);
+
+	 /* Vertical Variance */
+	 _vVariance = new QLineEdit();
+	 _vVariance->setText("5");
+	 _vVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+)"), _hVariance));
+
+	 QHBoxLayout * vVarLayout = new QHBoxLayout(frm);
+	 vVarLayout->addWidget(new QLabel("Vertical Variance"));
+	 vVarLayout->addWidget(_vVariance);
+
+   /* Add all of the hlayouts to the vlayout */
+	 vlayout->addLayout(startHLayout);
+	 vlayout->addLayout(endHLayout);
+	 vlayout->addLayout(hVarLayout);
+	 vlayout->addLayout(vVarLayout);
+	 
+	 frm->setLayout(vlayout);
 	 setCentralWidget(frm);
-	 frm->setLayout(layout);	 
 }
 
 BlockBuilderWin::~BlockBuilderWin()
 {	 
 }
+
