@@ -16,6 +16,7 @@
 #include "blockBuilderWin.hh"
 #include "colorSelector.hh"
 #include "blockBuilder.hh"
+#include "property.hh"
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -35,53 +36,35 @@ BlockBuilderWin::BlockBuilderWin()
 	 _widthEdit = new QLineEdit();
 	 _widthEdit->setText("1024");
 	 _widthEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _widthEdit));
-
-	 QHBoxLayout * widthHLayout = new QHBoxLayout();
-	 widthHLayout->addWidget(new QLabel("Width"));
-	 widthHLayout->addWidget(_widthEdit);
+	 Property * widthProperty = new Property("Width", _widthEdit);
 
 	 /* Height */
 	 _heightEdit = new QLineEdit();
 	 _heightEdit->setText("768");
 	 _heightEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _heightEdit));
-	 
-	 QHBoxLayout * heightHLayout = new QHBoxLayout();
-	 heightHLayout->addWidget(new QLabel("Height"));
-	 heightHLayout->addWidget(_heightEdit);
+	 Property * heightProperty = new Property("Height", _heightEdit);
 
 	 /* Starting Color */
 	 _startColor = new ColorSelector(NULL, QColor("#ffffff"));
 	 QLabel * startLbl = new QLabel("Start Color");
-
-	 QHBoxLayout * startHLayout = new QHBoxLayout();
-	 startHLayout->addWidget(startLbl);
-	 startHLayout->addWidget(_startColor);
+	 Property * startColorProperty = new Property("Start Color", _startColor);
 
 	 /* Ending Color */
 	 _endColor = new ColorSelector(NULL, QColor("#ffffff"));
 	 QLabel * endLbl = new QLabel("End Color");
+	 Property * endColorProperty = new Property("End Color", _endColor);
 	 
-	 QHBoxLayout * endHLayout = new QHBoxLayout();
-	 endHLayout->addWidget(endLbl);
-	 endHLayout->addWidget(_endColor);
-
 	 /* Horizontal Variance */
 	 _hVariance = new QLineEdit();
 	 _hVariance->setText("5");
 	 _hVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _hVariance));
-
-	 QHBoxLayout * hVarLayout = new QHBoxLayout();
-	 hVarLayout->addWidget(new QLabel("Horizontal Variance"));
-	 hVarLayout->addWidget(_hVariance);
+	 Property * hVarianceProperty = new Property("Horizontal Variance", _hVariance);
 
 	 /* Vertical Variance */
 	 _vVariance = new QLineEdit();
 	 _vVariance->setText("5");
 	 _vVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _vVariance));
-
-	 QHBoxLayout * vVarLayout = new QHBoxLayout();
-	 vVarLayout->addWidget(new QLabel("Vertical Variance"));
-	 vVarLayout->addWidget(_vVariance);
+	 Property * vVarianceProperty = new Property("Veritical Variance", _vVariance);
 
 	 /* setup the build button */
 	 _buildBtn = new QPushButton();
@@ -90,12 +73,12 @@ BlockBuilderWin::BlockBuilderWin()
 
    /* Add all of the hlayouts to the vlayout */
 
-	 vlayout->addLayout(widthHLayout);
-	 vlayout->addLayout(heightHLayout);
-	 vlayout->addLayout(startHLayout);
-	 vlayout->addLayout(endHLayout);
-	 vlayout->addLayout(hVarLayout);
-	 vlayout->addLayout(vVarLayout);
+	 vlayout->addLayout(widthProperty);
+	 vlayout->addLayout(heightProperty);
+	 vlayout->addLayout(startColorProperty);
+	 vlayout->addLayout(endColorProperty);
+	 vlayout->addLayout(hVarianceProperty);
+	 vlayout->addLayout(vVarianceProperty);
 	 vlayout->addWidget(_buildBtn);
 	 
 	 frm->setLayout(vlayout);
