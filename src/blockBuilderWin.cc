@@ -17,6 +17,7 @@
 #include "colorSelector.hh"
 #include "blockBuilder.hh"
 #include "property.hh"
+#include "constants.hh"
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -25,6 +26,7 @@
 #include <QRegExpValidator>
 #include <QRegExp>
 #include <QPushButton>
+#include <QComboBox>
 #include <QImage>
 
 BlockBuilderWin::BlockBuilderWin()
@@ -35,14 +37,24 @@ BlockBuilderWin::BlockBuilderWin()
 	 /* Width */
 	 _widthEdit = new QLineEdit();
 	 _widthEdit->setText("1024");
-	 _widthEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _widthEdit));
+	 _widthEdit->setValidator(new QRegExpValidator(RE_INT, _widthEdit));
 	 Property * widthProperty = new Property("Width", _widthEdit);
 
 	 /* Height */
 	 _heightEdit = new QLineEdit();
 	 _heightEdit->setText("768");
-	 _heightEdit->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _heightEdit));
+	 _heightEdit->setValidator(new QRegExpValidator(RE_INT, _heightEdit));
 	 Property * heightProperty = new Property("Height", _heightEdit);
+
+	 /* Block Size */
+	 _blockSizeCmb = new QComboBox();
+	 _blockSizeCmb->setInsertPolicy(QComboBox::NoInsert);	 
+	 connect(_widthEdit, SIGNAL(editingFinished()), 
+					 this, SLOT(calcBlockSizeOptions()));
+	 connect(_heightEdit, SIGNAL(editingFinished()), 
+					 this, SLOT(calcBlockSizeOptions()));
+	 calcBlockSizeOptions();
+	 Property * blockSizeProperty = new Property("Block Size", _blockSizeCmb);
 
 	 /* Starting Color */
 	 _startColor = new ColorSelector(NULL, QColor("#ffffff"));
@@ -57,13 +69,13 @@ BlockBuilderWin::BlockBuilderWin()
 	 /* Horizontal Variance */
 	 _hVariance = new QLineEdit();
 	 _hVariance->setText("5");
-	 _hVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _hVariance));
+	 _hVariance->setValidator(new QRegExpValidator(RE_FLOAT, _hVariance));
 	 Property * hVarianceProperty = new Property("Horizontal Variance", _hVariance);
 
 	 /* Vertical Variance */
 	 _vVariance = new QLineEdit();
 	 _vVariance->setText("5");
-	 _vVariance->setValidator(new QRegExpValidator(QRegExp("[0-9]+"), _vVariance));
+	 _vVariance->setValidator(new QRegExpValidator(RE_FLOAT, _vVariance));
 	 Property * vVarianceProperty = new Property("Veritical Variance", _vVariance);
 
 	 /* setup the build button */
@@ -72,9 +84,9 @@ BlockBuilderWin::BlockBuilderWin()
 	 connect(_buildBtn, SIGNAL(clicked()), this, SLOT(buildImage()));
 
    /* Add all of the hlayouts to the vlayout */
-
 	 vlayout->addLayout(widthProperty);
 	 vlayout->addLayout(heightProperty);
+	 vlayout->addLayout(blockSizeProperty);
 	 vlayout->addLayout(startColorProperty);
 	 vlayout->addLayout(endColorProperty);
 	 vlayout->addLayout(hVarianceProperty);
@@ -93,6 +105,7 @@ void BlockBuilderWin::buildImage()
 {
 	 BlockBuilder blockBuilder(_widthEdit->text().toInt(), 
 														 _heightEdit->text().toInt(),
+														 _blockSizeCmb->currentText().toInt(),
 														 _startColor->color(), _endColor->color(),
 														 _hVariance->text().toInt(), 
 														 _vVariance->text().toInt());
@@ -102,3 +115,14 @@ void BlockBuilderWin::buildImage()
 	 img.save("tmp.bmp");
 }
 
+void BlockBuilderWin::calcBlockSizeOptions()
+{
+	 /* Find all common denominators for width and height */
+	 int width = _widthEdit->text().toInt();
+	 int height = _heightEdit->text().toInt();
+
+	 _blockSizeCmb->clear();
+	 for(int x = 2; x <= (height/2); ++x)
+			if(height % x == 0 && width % x == 0)
+				 _blockSizeCmb->addItem(QString("%1").arg(x));
+}

@@ -16,11 +16,12 @@
 #include "blockBuilder.hh"
 #include <math.h>
 
-BlockBuilder::BlockBuilder(int width, int height, const QColor & startColor, 
-													 const QColor & endColor, int hVariance, 
-													 int vVariance) :
-	 _width(width), _height(height), _startColor(startColor), 
-	 _endColor(endColor), _hVariance(hVariance), _vVariance(vVariance)
+BlockBuilder::BlockBuilder(int width, int height, int blockSize, 
+													 const QColor & startColor, const QColor & endColor, 
+													 int hVariance, int vVariance) :
+	 _width(width), _height(height), _blockSize(blockSize), 
+	 _startColor(startColor), _endColor(endColor), _hVariance(hVariance), 
+	 _vVariance(vVariance)
 {
 }
 
@@ -29,27 +30,27 @@ BlockBuilder::~BlockBuilder()
 
 QImage BlockBuilder::buildImage()
 {
-	 int blockSize = 8;
-	 int numBlocks = (_height/blockSize) * (_width/blockSize);
-	 int numRows = _height/blockSize;
 
-	 blocks.resize((_height/blockSize) * (_width/blockSize));
+	 int numBlocks = (_height/_blockSize) * (_width/_blockSize);
+	 int numRows = _height/_blockSize;
+
+	 blocks.resize((_height/_blockSize) * (_width/_blockSize));
 
 	 float rStep = (_endColor.redF() - _startColor.redF()) / (float)numRows;
 	 float gStep = (_endColor.greenF() - _startColor.greenF()) / (float)numRows;
 	 float bStep = (_endColor.blueF() - _startColor.blueF()) / (float)numRows;
 	 
 	 QColor rowBase = _startColor;
-	 int rowSize = _width / blockSize;
+	 int rowSize = _width / _blockSize;
 	 QImage retval(_width, _height, QImage::Format_RGB32);
 	 for(int x = 0; x < numBlocks; ++x) {
 			if(x % rowSize == 0)
 				 rowBase = updateBaseColor(rowBase, rStep, gStep, bStep, _vVariance);
 			
-			int pX = x % rowSize * blockSize;
-			int pY = x / rowSize * blockSize;
-			for(int i = 0; i < blockSize; ++i)
-				 for(int j = 0; j < blockSize; ++j)
+			int pX = x % rowSize * _blockSize;
+			int pY = x / rowSize * _blockSize;
+			for(int i = 0; i < _blockSize; ++i)
+				 for(int j = 0; j < _blockSize; ++j)
 						retval.setPixel(pX+i, pY+j, rowBase.rgb());
 	 }
 

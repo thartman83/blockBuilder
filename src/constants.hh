@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* blockBuilder.hh for blockBuilder                                          */
+/* constants.hh for blockBuilder                                             */
 /* Copyright (c) 2011 Thomas Hartman (rokstar83@gmail.com)                   */
 /*                                                                           */
 /* This program is free software; you can redistribute it and/or             */
@@ -13,34 +13,12 @@
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
 /*****************************************************************************/
-#ifndef BLOCKBUILDER_HH_
-#define BLOCKBUILDER_HH_
-#include <QColor>
-#include <QVector>
-#include <QImage>
+#ifndef CONSTANTS_HH_
+#define CONSTANTS_HH_
+#include <QString>
+#include <QRegExp>
 
-class BlockBuilder
-{
-	 public:
-	 BlockBuilder(int width, int height, int _blockSize, 
-								const QColor & startColor, const QColor & endColor, 
-								int hVariance, int vVariance);
-	 ~BlockBuilder();
+const QRegExp RE_FLOAT("\\.[0-9]+");
+const QRegExp RE_INT("[0-9]+");
 
-	 QImage buildImage();
-
-private:
-	 QColor updateBaseColor(const QColor & baseColor, float rStep, float gStep, 
-													float bStep, int variance);
-
-	 int _width;
-	 int _height;
-	 int _blockSize;
-	 QColor _startColor;
-	 QColor _endColor;
-	 int _hVariance;
-	 int _vVariance;
-	 QVector<QColor> blocks;
-};
-
-#endif//BLOCKBUILDER_HH_
+#endif//CONSTANTS_HH_

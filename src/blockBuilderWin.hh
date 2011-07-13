@@ -20,16 +20,18 @@
 class ColorSelector;
 class QLineEdit;
 class QPushButton;
+class QComboBox;
 
 class BlockBuilderWin : public QMainWindow
 {
 	 Q_OBJECT
 	 public:
 	 BlockBuilderWin();
-	 ~BlockBuilderWin();
+	 ~BlockBuilderWin();										 										 
 
 public slots:
 	 void buildImage();
+	 void calcBlockSizeOptions();
 	 
 private:
 	 ColorSelector * _startColor;
@@ -39,6 +41,7 @@ private:
 	 QPushButton * _buildBtn;
 	 QLineEdit * _heightEdit;
 	 QLineEdit * _widthEdit;
+	 QComboBox * _blockSizeCmb;
 };
 
 #endif//BLOCKBUILDERWIN_HH_
