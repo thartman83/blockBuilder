@@ -20,5 +20,9 @@
 
 const QRegExp RE_FLOAT("\\.[0-9]+");
 const QRegExp RE_INT("[0-9]+");
+const float HVARIANCE = .05;
+const float VVARIANCE = .05;
+const QColor START_COLOR = QColor("#000000");
+const QColor END_COLOR = QColor("#ffffff");
 
 #endif//CONSTANTS_HH_

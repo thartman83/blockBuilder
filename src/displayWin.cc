@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* blockBuilderWin.hh for blockBuilder                                       */
+/* displayWin.cc for blockBuilder                                            */
 /* Copyright (c) 2011 Thomas Hartman (rokstar83@gmail.com)                   */
 /*                                                                           */
 /* This program is free software; you can redistribute it and/or             */
@@ -13,37 +13,27 @@
 /* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
 /* GNU General Public License for more details.                              */
 /*****************************************************************************/
-#ifndef BLOCKBUILDERWIN_HH_
-#define BLOCKBUILDERWIN_HH_
-#include <QMainWindow>
+#include "displayWin.hh"
+#include <QPixmap>
+#include <QLabel>
+#include <QCloseEvent>
 
-class ColorSelector;
-class QLineEdit;
-class QPushButton;
-class QComboBox;
-class DisplayWin;
-
-class BlockBuilderWin : public QMainWindow
+DisplayWin::DisplayWin(QWidget * parent) : QMainWindow(parent)
 {
-	 Q_OBJECT
-	 public:
-	 BlockBuilderWin();
-	 ~BlockBuilderWin();										 										 
+	 _imgLbl = new QLabel(this);
+	 setCentralWidget(_imgLbl);
+}
 
-public slots:
-	 void buildImage();
-	 void calcBlockSizeOptions();
-	 
-private:
-	 ColorSelector * _startColor;
-	 ColorSelector * _endColor;
-	 QLineEdit * _hVariance;
-	 QLineEdit * _vVariance;
-	 QPushButton * _buildBtn;
-	 QLineEdit * _heightEdit;
-	 QLineEdit * _widthEdit;
-	 QComboBox * _blockSizeCmb;
-	 DisplayWin * _displayWin;
-};
+void DisplayWin::loadImage(const QString & imgPath)
+{	 
+	 QPixmap pix;
 
-#endif//BLOCKBUILDERWIN_HH_
+	 pix.load(imgPath);
+	 _imgLbl->setPixmap(pix);	 
+}
+
+void DisplayWin::closeEvent(QCloseEvent * e)
+{
+	 hide();
+	 e->ignore();
+}

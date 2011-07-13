@@ -17,6 +17,7 @@
 #include "colorSelector.hh"
 #include "blockBuilder.hh"
 #include "property.hh"
+#include "displayWin.hh"
 #include "constants.hh"
 #include <QFrame>
 #include <QVBoxLayout>
@@ -57,25 +58,25 @@ BlockBuilderWin::BlockBuilderWin()
 	 Property * blockSizeProperty = new Property("Block Size", _blockSizeCmb);
 
 	 /* Starting Color */
-	 _startColor = new ColorSelector(NULL, QColor("#ffffff"));
+	 _startColor = new ColorSelector(NULL, START_COLOR);
 	 QLabel * startLbl = new QLabel("Start Color");
 	 Property * startColorProperty = new Property("Start Color", _startColor);
 
 	 /* Ending Color */
-	 _endColor = new ColorSelector(NULL, QColor("#ffffff"));
+	 _endColor = new ColorSelector(NULL, END_COLOR);
 	 QLabel * endLbl = new QLabel("End Color");
 	 Property * endColorProperty = new Property("End Color", _endColor);
 	 
 	 /* Horizontal Variance */
 	 _hVariance = new QLineEdit();
-	 _hVariance->setText("5");
 	 _hVariance->setValidator(new QRegExpValidator(RE_FLOAT, _hVariance));
+	 _hVariance->setText(QString("%1").arg(HVARIANCE));
 	 Property * hVarianceProperty = new Property("Horizontal Variance", _hVariance);
 
 	 /* Vertical Variance */
 	 _vVariance = new QLineEdit();
-	 _vVariance->setText("5");
 	 _vVariance->setValidator(new QRegExpValidator(RE_FLOAT, _vVariance));
+	 _vVariance->setText(QString("%1").arg(VVARIANCE));
 	 Property * vVarianceProperty = new Property("Veritical Variance", _vVariance);
 
 	 /* setup the build button */
@@ -95,6 +96,8 @@ BlockBuilderWin::BlockBuilderWin()
 	 
 	 frm->setLayout(vlayout);
 	 setCentralWidget(frm);
+	 
+	 _displayWin = new DisplayWin(this);
 }
 
 BlockBuilderWin::~BlockBuilderWin()
@@ -113,6 +116,8 @@ void BlockBuilderWin::buildImage()
 	 QImage img = blockBuilder.buildImage();
 
 	 img.save("tmp.bmp");
+	 _displayWin->loadImage("tmp.bmp");
+	 _displayWin->show();
 }
 
 void BlockBuilderWin::calcBlockSizeOptions()
