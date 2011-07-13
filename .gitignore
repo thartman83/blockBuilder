@@ -16,3 +16,4 @@ Makefile
 
 # ignore generated executables
 blockBuilder
+*.bmp
