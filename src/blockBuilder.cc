@@ -15,6 +15,8 @@
 /*****************************************************************************/
 #include "blockBuilder.hh"
 #include <math.h>
+#include <QtGlobal>
+#include <QTime>
 
 BlockBuilder::BlockBuilder(int width, int height, int blockSize, 
 													 const QColor & startColor, const QColor & endColor, 
@@ -30,7 +32,7 @@ BlockBuilder::~BlockBuilder()
 
 QImage BlockBuilder::buildImage()
 {
-
+	 qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
 	 int numBlocks = (_height/_blockSize) * (_width/_blockSize);
 	 int numRows = _height/_blockSize;
 
@@ -49,9 +51,10 @@ QImage BlockBuilder::buildImage()
 			
 			int pX = x % rowSize * _blockSize;
 			int pY = x / rowSize * _blockSize;
+			QColor col = varyColor(rowBase, _hVariance);
 			for(int i = 0; i < _blockSize; ++i)
 				 for(int j = 0; j < _blockSize; ++j)
-						retval.setPixel(pX+i, pY+j, rowBase.rgb());
+						retval.setPixel(pX+i, pY+j, col.rgb());
 	 }
 
 	 return retval;
@@ -64,5 +67,20 @@ QColor BlockBuilder::updateBaseColor(const QColor & baseColor, float rStep,
 	 retval.setRedF(retval.redF() + rStep);
 	 retval.setGreenF(retval.greenF() + gStep);
 	 retval.setBlueF(retval.blueF() + bStep);
+	 return retval;
+}
+
+QColor BlockBuilder::varyColor(const QColor & base, int variance)
+{
+	 QColor retval = base;
+	 int var;
+
+	 var = qrand() % variance;
+	 var = var / (var > (variance / 2) ? -2 : 2);
+
+	 retval.setRedF(retval.redF() + ((float)var/(float)100));
+	 retval.setGreenF(retval.greenF() + ((float)var/(float)100));
+	 retval.setBlueF(retval.blueF() + ((float)var/(float)100));
+	 
 	 return retval;
 }

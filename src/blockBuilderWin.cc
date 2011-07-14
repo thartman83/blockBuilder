@@ -69,13 +69,13 @@ BlockBuilderWin::BlockBuilderWin()
 	 
 	 /* Horizontal Variance */
 	 _hVariance = new QLineEdit();
-	 _hVariance->setValidator(new QRegExpValidator(RE_FLOAT, _hVariance));
+	 _hVariance->setValidator(new QRegExpValidator(RE_INT, _hVariance));
 	 _hVariance->setText(QString("%1").arg(HVARIANCE));
 	 Property * hVarianceProperty = new Property("Horizontal Variance", _hVariance);
 
 	 /* Vertical Variance */
 	 _vVariance = new QLineEdit();
-	 _vVariance->setValidator(new QRegExpValidator(RE_FLOAT, _vVariance));
+	 _vVariance->setValidator(new QRegExpValidator(RE_INT, _vVariance));
 	 _vVariance->setText(QString("%1").arg(VVARIANCE));
 	 Property * vVarianceProperty = new Property("Veritical Variance", _vVariance);
 

@@ -32,6 +32,7 @@ class BlockBuilder
 private:
 	 QColor updateBaseColor(const QColor & baseColor, float rStep, float gStep, 
 													float bStep, int variance);
+	 QColor varyColor(const QColor & base, int variance);
 
 	 int _width;
 	 int _height;
